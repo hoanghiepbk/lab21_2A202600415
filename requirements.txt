@@ -1,0 +1,28 @@
+# Lab 21 — LoRA Fine-tuning · Reproducibility pin
+# Versions match notebook execution environment (Colab T4, 2026-05)
+#
+# Install order (trong notebook đã handle):
+#   1. unsloth (git latest) — bring its own torch/triton wheels for CUDA
+#   2. trl + peft + accelerate + bitsandbytes (no-deps để không override unsloth's torch)
+#   3. dataset/visualization libs
+#
+# Notebook tested on: Python 3.12, CUDA 12.8, Tesla T4 16GB
+
+# ── Core: Unsloth (cần CUDA, bring its own torch) ──
+unsloth @ git+https://github.com/unslothai/unsloth.git
+
+# ── Fine-tuning stack ──
+trl>=0.12,<0.16              # >=0.12 cho processing_class kwarg, <0.16 để tránh breaking changes
+peft                         # LoRA adapter wrapper
+accelerate                   # device placement + mixed precision
+bitsandbytes                 # 4-bit NF4 quantization + paged AdamW
+
+# ── Data ──
+datasets                     # 5CD-AI/Vietnamese-alpaca-gpt4-gg-translated
+transformers>=4.46           # cần processing_class API
+
+# ── Plotting + analysis ──
+matplotlib
+seaborn
+pandas
+numpy

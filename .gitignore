@@ -216,3 +216,19 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ─── Lab 21 specific ───
+# Ignore all zip files by default (Colab artifacts, build temp)
+*.zip
+# But KEEP the final submission ZIP that we want to track
+!lab21_2A202600415_PhamHuuHoangHiep.zip
+
+# QC / inspection temp files
+_qc_*/
+_qc_*.py
+_extract_temp/
+_strip_*.py
+
+# Build staging folder pattern (created by submission scripts)
+lab21_*[!.zip]/
+
