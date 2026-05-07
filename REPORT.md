@@ -2,7 +2,11 @@
 
 **Học viên**: Phạm Hữu Hoàng Hiệp — 2A202600415
 **Ngày nộp**: 2026-05-07
-**Submission option**: A (Lightweight ZIP)
+**Submission option**: **B (GitHub + HuggingFace Hub)** — bonus +5 pts
+
+**🔗 Public links**:
+- **GitHub repo**: https://github.com/hoanghiepbk/Day21-Track3-Finetuning-LLMs-LoRA-QLoRA
+- **HuggingFace Hub adapter**: https://huggingface.co/hiepphambk/lap21_2A202600415
 
 ---
 
@@ -168,7 +172,23 @@ Trên dataset Vietnamese Alpaca (200 samples) với base model Qwen2.5-3B 4-bit,
 - Random seed: **42** (dataset shuffle, train/eval split, LoRA init)
 - Notebook: `notebook.ipynb` (stripped outputs)
 - Dependencies: xem `requirements.txt`
-- Adapter r=16: `adapters/r16/adapter_model.safetensors`
+- **Adapter r=16 public**: https://huggingface.co/hiepphambk/lap21_2A202600415  (thay vì attach `adapters/r16/` trong ZIP — Option B)
 - Numbers verified bằng: `results/rank_experiment_summary.csv` (4 rows — base + 3 ranks)
 - Qualitative raw: `results/qualitative_comparison.csv` (5 prompts × 2 models)
 - Loss curve: `results/loss_curve.png`
+
+### Reproducibility — load adapter từ HF Hub
+
+```python
+from peft import PeftModel
+from unsloth import FastLanguageModel
+
+base_model, tokenizer = FastLanguageModel.from_pretrained(
+    model_name="unsloth/Qwen2.5-3B-bnb-4bit",
+    max_seq_length=512,
+    load_in_4bit=True,
+)
+model = PeftModel.from_pretrained(base_model, "hiepphambk/lap21_2A202600415")
+FastLanguageModel.for_inference(model)
+# → ready cho inference, perplexity verify giống số trong section 2
+```
